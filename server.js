@@ -65,8 +65,13 @@ app.use('/list', listRoutes);
 app.post('/register', async (req, res)=>{
   const { email, username, password} = req.body;
   const user = new User({email, username});
-  const registeredUser = await User.register(user, password);
-  console.log(registeredUser);
+  try{
+
+    const registeredUser = await User.register(user, password);
+    res.status(200).json({ message: 'User registered successfully'});
+  }catch(error){
+    res.status(500).send('Internal Server Error')
+  }
   
 })
 //handles login
